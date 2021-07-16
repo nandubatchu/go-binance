@@ -53,12 +53,12 @@ func (s *TransferToSubAccountService) createOrder(ctx context.Context, endpoint 
 }
 
 // Do send request
-func (s *TransferToSubAccountService) Do(ctx context.Context, opts ...RequestOption) (res *CreateOrderResponse, err error) {
+func (s *TransferToSubAccountService) Do(ctx context.Context, opts ...RequestOption) (res *TransferToSubAccountResponse, err error) {
 	data, err := s.createOrder(ctx, "/sapi/v1/sub-account/transfer/subToSub", opts...)
 	if err != nil {
 		return nil, err
 	}
-	res = new(CreateOrderResponse)
+	res = new(TransferToSubAccountResponse)
 	err = json.Unmarshal(data, res)
 	if err != nil {
 		return nil, err
