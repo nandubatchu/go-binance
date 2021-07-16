@@ -98,12 +98,12 @@ func (s *SubAccountTransferHistoryService) subaccountTransferHistory(ctx context
 }
 
 // Do send request
-func (s *SubAccountTransferHistoryService) Do(ctx context.Context, opts ...RequestOption) (res *SubAccountTransferHistoryResponse, err error) {
+func (s *SubAccountTransferHistoryService) Do(ctx context.Context, opts ...RequestOption) (res *[]SubAccountTransferHistoryResponse, err error) {
 	data, err := s.subaccountTransferHistory(ctx, "/sapi/v1/sub-account/transfer/subUserHistory", opts...)
 	if err != nil {
 		return nil, err
 	}
-	res = new(SubAccountTransferHistoryResponse)
+	res = &[]SubAccountTransferHistoryResponse{}
 	err = json.Unmarshal(data, res)
 	if err != nil {
 		return nil, err
