@@ -630,3 +630,8 @@ func (c *Client) NewDustTransferService() *DustTransferService {
 func (c *Client) NewTransferToSubAccountService() *TransferToSubAccountService {
 	return &TransferToSubAccountService{c: c}
 }
+
+// NewSubAccountTransferHistoryService init transfer to subaccount service
+func (c *Client) NewSubAccountTransferHistoryService() *SubAccountTransferHistoryService {
+	return &SubAccountTransferHistoryService{c: c}
+}
