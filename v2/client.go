@@ -289,6 +289,7 @@ func (c *Client) callAPI(ctx context.Context, r *request, opts ...RequestOption)
 	if f == nil {
 		f = c.HTTPClient.Do
 	}
+	fmt.Println(r.fullURL)
 	res, err := f(req)
 	if err != nil {
 		return []byte{}, err
