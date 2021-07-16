@@ -5,7 +5,7 @@ import (
 	"encoding/json"
 )
 
-// CreateOrderService create order
+// TransferToSubAccountService transfer to subaccount
 type TransferToSubAccountService struct {
 	c       *Client
 	toEmail string
@@ -31,7 +31,7 @@ func (s *TransferToSubAccountService) Amount(amount string) *TransferToSubAccoun
 	return s
 }
 
-func (s *TransferToSubAccountService) createOrder(ctx context.Context, endpoint string, opts ...RequestOption) (data []byte, err error) {
+func (s *TransferToSubAccountService) transferToSubaccount(ctx context.Context, endpoint string, opts ...RequestOption) (data []byte, err error) {
 	r := &request{
 		method:   "POST",
 		endpoint: endpoint,
@@ -54,7 +54,7 @@ func (s *TransferToSubAccountService) createOrder(ctx context.Context, endpoint 
 
 // Do send request
 func (s *TransferToSubAccountService) Do(ctx context.Context, opts ...RequestOption) (res *TransferToSubAccountResponse, err error) {
-	data, err := s.createOrder(ctx, "/sapi/v1/sub-account/transfer/subToSub", opts...)
+	data, err := s.transferToSubaccount(ctx, "/sapi/v1/sub-account/transfer/subToSub", opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -68,11 +68,11 @@ func (s *TransferToSubAccountService) Do(ctx context.Context, opts ...RequestOpt
 
 // Test send test api to check if the request is valid
 func (s *TransferToSubAccountService) Test(ctx context.Context, opts ...RequestOption) (err error) {
-	_, err = s.createOrder(ctx, "/sapi/v1/sub-account/transfer/subToSub/test", opts...)
+	_, err = s.transferToSubaccount(ctx, "/sapi/v1/sub-account/transfer/subToSub/test", opts...)
 	return err
 }
 
-// CreateOrderResponse define create order response
+// TransferToSubAccountResponse define transfer to subaccount response
 type TransferToSubAccountResponse struct {
 	TxnID string `json:"txnId"`
 }
