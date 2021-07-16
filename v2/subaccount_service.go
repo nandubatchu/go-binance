@@ -76,3 +76,56 @@ func (s *TransferToSubAccountService) Test(ctx context.Context, opts ...RequestO
 type TransferToSubAccountResponse struct {
 	TxnID string `json:"txnId"`
 }
+
+// SubAccountTransferHistoryService transfer to subaccount
+type SubAccountTransferHistoryService struct {
+	c *Client
+}
+
+func (s *SubAccountTransferHistoryService) subaccountTransferHistory(ctx context.Context, endpoint string, opts ...RequestOption) (data []byte, err error) {
+	r := &request{
+		method:   "GET",
+		endpoint: endpoint,
+		secType:  secTypeSigned,
+	}
+	m := params{}
+	r.setFormParams(m)
+	data, err = s.c.callAPI(ctx, r, opts...)
+	if err != nil {
+		return []byte{}, err
+	}
+	return data, nil
+}
+
+// Do send request
+func (s *SubAccountTransferHistoryService) Do(ctx context.Context, opts ...RequestOption) (res *SubAccountTransferHistoryResponse, err error) {
+	data, err := s.subaccountTransferHistory(ctx, "/sapi/v1/sub-account/transfer/subUserHistory", opts...)
+	if err != nil {
+		return nil, err
+	}
+	res = new(SubAccountTransferHistoryResponse)
+	err = json.Unmarshal(data, res)
+	if err != nil {
+		return nil, err
+	}
+	return res, nil
+}
+
+// Test send test api to check if the request is valid
+func (s *SubAccountTransferHistoryService) Test(ctx context.Context, opts ...RequestOption) (err error) {
+	_, err = s.subaccountTransferHistory(ctx, "/sapi/v1/sub-account/transfer/subUserHistory/test", opts...)
+	return err
+}
+
+// TransferToSubAccountResponse define transfer to subaccount response
+type SubAccountTransferHistoryResponse struct {
+	Email           string `json:"email"`
+	Type            int    `json:"type"`
+	Asset           string `json:"asset"`
+	Qty             string `json:"qty"`
+	FromAccountType string `json:"fromAccountType"`
+	ToAccountType   string `json:"toAccountType"`
+	Status          string `json:"status"`
+	TranID          int    `json:"tranId"`
+	Time            int    `json:"time"`
+}
