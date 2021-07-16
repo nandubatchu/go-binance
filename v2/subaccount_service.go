@@ -10,7 +10,7 @@ type TransferToSubAccountService struct {
 	c       *Client
 	toEmail string
 	asset   string
-	amount  *string
+	amount  string
 }
 
 // ToEmail set toEmail
@@ -27,7 +27,7 @@ func (s *TransferToSubAccountService) Asset(asset string) *TransferToSubAccountS
 
 // Amount set amount
 func (s *TransferToSubAccountService) Amount(amount string) *TransferToSubAccountService {
-	s.amount = &amount
+	s.amount = amount
 	return s
 }
 
@@ -40,9 +40,7 @@ func (s *TransferToSubAccountService) transferToSubaccount(ctx context.Context, 
 	m := params{
 		"toEmail": s.toEmail,
 		"asset":   s.asset,
-	}
-	if s.amount != nil {
-		m["amount"] = *s.amount
+		"amount": s.amount,
 	}
 	r.setFormParams(m)
 	data, err = s.c.callAPI(ctx, r, opts...)
