@@ -42,7 +42,7 @@ func (s *TransferToSubAccountService) transferToSubaccount(ctx context.Context, 
 		"asset":   s.asset,
 		"amount": s.amount,
 	}
-	r.setFormParams(m)
+	r.setParams(m)
 	data, err = s.c.callAPI(ctx, r, opts...)
 	if err != nil {
 		return []byte{}, err
