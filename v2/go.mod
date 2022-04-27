@@ -12,4 +12,5 @@ require (
 	github.com/pmezard/go-difflib v1.0.0 // indirect
 	github.com/stretchr/objx v0.1.0 // indirect
 	github.com/stretchr/testify v1.2.1
+	github.com/newrelic/go-agent/v3 v3.15.2
 )
