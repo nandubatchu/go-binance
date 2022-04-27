@@ -7,6 +7,7 @@ import (
 	"crypto/sha256"
 	"encoding/json"
 	"fmt"
+	"github.com/newrelic/go-agent/v3/newrelic"
 	"io/ioutil"
 	"log"
 	"net/http"
@@ -289,6 +290,7 @@ func (c *Client) callAPI(ctx context.Context, r *request, opts ...RequestOption)
 	if f == nil {
 		f = c.HTTPClient.Do
 	}
+	defer newrelic.StartExternalSegment(newrelic.FromContext(ctx), req).End()
 	res, err := f(req)
 	if err != nil {
 		return []byte{}, err
@@ -623,4 +625,9 @@ func (c *Client) NewListDustLogService() *ListDustLogService {
 // NewDustTransferService init dust transfer service
 func (c *Client) NewDustTransferService() *DustTransferService {
 	return &DustTransferService{c: c}
+}
+
+// NewTransferToSubAccountService transfer to subaccount service
+func (c *Client) NewTransferToSubAccountService() *TransferToSubAccountService {
+	return &TransferToSubAccountService{c: c}
 }
